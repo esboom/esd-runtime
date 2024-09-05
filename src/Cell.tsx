@@ -24,8 +24,8 @@ function Cell(props: PropsWithChildren<{
 
     const [insertType, setInsertType] = useState<"top" | "bottom" | "left" | "right" | "center" | undefined>();
 
-    const onDragEnter = useDragStore((state) => state.onDragEnter)
-    const onDragLeave = useDragStore((state) => state.onDragLeave)
+    const dragEnter = useDragStore((state) => state.onDragEnter)
+    const dragLeave = useDragStore((state) => state.onDragLeave)
     const onDragEnd = useDragStore((state) => state.onDragEnd)
     const onDrop = useDragStore((state) => state.onDrop)
     const setDraggingId = useDragStore((state) => state.setDraggingId)
@@ -60,22 +60,27 @@ function Cell(props: PropsWithChildren<{
         }
     }
 
-    const onMouseEnter = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const onDragEnter = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 
         if (!draggingId) {
             return
         }
 
-        setTargetId(props.CompId)
+        // setTargetId(props.CompId)
+
+        dragEnter(props.CompId)
     }
 
-    const onMouseLeave = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const onDragLeave = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+
 
         if (!draggingId) {
             return
         }
 
-        setTargetId(null)
+        // setTargetId(null)
+        dragLeave()
+
 
         // 复位自身
         if (insertType) {
@@ -102,15 +107,16 @@ function Cell(props: PropsWithChildren<{
         data-esd-id={props.CompId}
         draggable
         onMouseDown={() => { }}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        onMouseUp={() => { }}
-        onMouseMove={onMouseMove}
+        // onMouseEnter={onMouseEnter}
+        // onMouseLeave={onMouseLeave}
+        // onMouseUp={() => { }}
+        // onMouseMove={onMouseMove}
         onDragStart={() => !draggingId && draggingId != props.CompId && setDraggingId(props.CompId)}
         onDragEnd={onDragEnd}
         onDragOver={onDragOver}
-        onDragLeave={() => onDragLeave()}
-        onDragEnter={() => onDragEnter(props.CompId)}
+        onDragLeave={onDragLeave}
+        onDragEnter={onDragEnter}
+
         onDrop={onDrop}
 
         // onClickCapture={(e)=>{

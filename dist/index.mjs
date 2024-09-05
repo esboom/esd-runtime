@@ -15,8 +15,8 @@ import { jsx } from "react/jsx-runtime";
 function Cell(props) {
   console.log("render Cell", props);
   const [insertType, setInsertType] = useState();
-  const onDragEnter = useDragStore((state) => state.onDragEnter);
-  const onDragLeave = useDragStore((state) => state.onDragLeave);
+  const dragEnter = useDragStore((state) => state.onDragEnter);
+  const dragLeave = useDragStore((state) => state.onDragLeave);
   const onDragEnd = useDragStore((state) => state.onDragEnd);
   const onDrop = useDragStore((state) => state.onDrop);
   const setDraggingId = useDragStore((state) => state.setDraggingId);
@@ -40,17 +40,17 @@ function Cell(props) {
       x < fnx(y) ? setInsertType("left") : setInsertType("bottom");
     }
   };
-  const onMouseEnter = (e) => {
+  const onDragEnter = (e) => {
     if (!draggingId) {
       return;
     }
-    setTargetId(props.CompId);
+    dragEnter(props.CompId);
   };
-  const onMouseLeave = (e) => {
+  const onDragLeave = (e) => {
     if (!draggingId) {
       return;
     }
-    setTargetId(null);
+    dragLeave();
     if (insertType) {
       setInsertType(void 0);
     }
@@ -67,16 +67,11 @@ function Cell(props) {
       draggable: true,
       onMouseDown: () => {
       },
-      onMouseEnter,
-      onMouseLeave,
-      onMouseUp: () => {
-      },
-      onMouseMove,
       onDragStart: () => !draggingId && draggingId != props.CompId && setDraggingId(props.CompId),
       onDragEnd,
       onDragOver,
-      onDragLeave: () => onDragLeave(),
-      onDragEnter: () => onDragEnter(props.CompId),
+      onDragLeave,
+      onDragEnter,
       onDrop,
       style: {
         display: "inline-block"
