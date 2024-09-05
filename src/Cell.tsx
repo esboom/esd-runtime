@@ -92,8 +92,8 @@ function Cell(props: PropsWithChildren<{
         onDragStart={() => setDraggingId(props.CompId)}
         onDragEnd={() => { }}
         onDragOver={() => { }}
-        onDragLeave={() => onDragLeave()}
-        onDragEnter={() => onDragEnter(props.CompId)}
+        // onDragLeave={() => onDragLeave()}
+        // onDragEnter={() => onDragEnter(props.CompId)}
         onDrop={() => { }}
 
         // onClickCapture={(e)=>{
@@ -110,7 +110,7 @@ function Cell(props: PropsWithChildren<{
 
         }}
 
-        className={cn(insertType && `insert insert-${insertType}`, targetId == props.unquieId && "insert-dragging")}
+        className={cn(insertType && `insert insert-${insertType}`, targetId == props.CompId && "insert-dragging")}
 
 
 

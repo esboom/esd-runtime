@@ -105,14 +105,12 @@ function Cell(props) {
       },
       onDragOver: () => {
       },
-      onDragLeave: () => onDragLeave(),
-      onDragEnter: () => onDragEnter(props.CompId),
       onDrop: () => {
       },
       style: {
         display: "inline-block"
       },
-      className: cn(insertType && `insert insert-${insertType}`, targetId == props.unquieId && "insert-dragging"),
+      className: cn(insertType && `insert insert-${insertType}`, targetId == props.CompId && "insert-dragging"),
       children: props.children
     }
   );
