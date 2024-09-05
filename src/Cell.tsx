@@ -81,6 +81,13 @@ function Cell(props: PropsWithChildren<{
         }
     }
 
+    const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        console.log("dragover")
+    }
+
 
     return <div
         data-esd-id={props.CompId}
@@ -91,11 +98,11 @@ function Cell(props: PropsWithChildren<{
         onMouseUp={() => { }}
         onMouseMove={onMouseMove}
         onDragStart={() => !draggingId && draggingId != props.CompId && setDraggingId(props.CompId)}
-        onDragEnd={() => { }}
-        onDragOver={() => { }}
+        onDragEnd={() => console.log("dragend")}
+        onDragOver={onDragOver}
         // onDragLeave={() => onDragLeave()}
         // onDragEnter={() => onDragEnter(props.CompId)}
-        onDrop={() => { }}
+        onDrop={() => console.log("drop")}
 
         // onClickCapture={(e)=>{
         //     e.stopPropagation();

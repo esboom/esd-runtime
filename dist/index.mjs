@@ -53,6 +53,11 @@ function Cell(props) {
       setInsertType(void 0);
     }
   };
+  const onDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("dragover");
+  };
   return /* @__PURE__ */ jsx(
     "div",
     {
@@ -66,12 +71,9 @@ function Cell(props) {
       },
       onMouseMove,
       onDragStart: () => !draggingId && draggingId != props.CompId && setDraggingId(props.CompId),
-      onDragEnd: () => {
-      },
-      onDragOver: () => {
-      },
-      onDrop: () => {
-      },
+      onDragEnd: () => console.log("dragend"),
+      onDragOver,
+      onDrop: () => console.log("drop"),
       style: {
         display: "inline-block"
       },
