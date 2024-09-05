@@ -42,7 +42,7 @@ export const esdrt = {
         // 外面通过ast定义的
         const compId = props.compId as string;
         if(compId){
-            return React.createElement(Cell, { mode: "sandbox", unquieId:props.compId }, React.createElement(component, props))
+            return React.createElement(Cell, { mode: "sandbox", CompId:props.compId }, React.createElement(component, props))
         }else{
             return React.createElement(component, props)
         }
@@ -156,3 +156,16 @@ export const useDragStore = create<{
     onDragEnter: (id) => set({ targetId: id }),
     onDragLeave: () => set({ targetId: null }),
 }))
+
+
+//subscribe 监听DragStore的draggingId和targetId变化,打印到控制台
+
+
+
+const unsub3 = useDragStore.subscribe(
+    (s,pres) => console.log("dragging  ",pres.draggingId,"--->",s.draggingId),
+  )
+
+  const unsub4 = useDragStore.subscribe(
+    (s,pres) => console.log("target  ",pres.targetId,"--->",s.targetId),
+  )

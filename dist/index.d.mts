@@ -29,7 +29,7 @@ declare const esdrt: {
     isService: <T_1 = Dict>(service: TService<T_1>) => () => T_1;
     isComponent: <T_2>(component: React.FunctionComponent<T_2>, propsDef: TPropsObject) => (props: any) => React.FunctionComponentElement<T_2> | React.FunctionComponentElement<React.PropsWithChildren<{
         mode: "sandpack" | "sandbox";
-        unquieId: string;
+        CompId: string;
     }>>;
     init(x: any): void;
 };

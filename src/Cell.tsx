@@ -1,15 +1,24 @@
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useRef, useState } from "react";
 
 import "./cell.css"
 import { useDragStore } from "./esdrt";
 import { cn } from "./utils";
 
+function getUUId() {
+    return Math.random().toString(36).slice(2);
+}
+
+
 function Cell(props: PropsWithChildren<{
     mode: "sandpack" | "sandbox",
-    unquieId: string
+    CompId: string
 }>) {
 
     console.log("render Cell", props);
+
+    // 生成唯一的随机id
+    // 不可以在运行态分配id，因为这样会导致编辑器无法定位语法树
+    // const cId = useRef<string>(getUUId())
 
 
     const [insertType, setInsertType] = useState<"top" | "bottom" | "left" | "right" | "center" | undefined>();
@@ -19,10 +28,16 @@ function Cell(props: PropsWithChildren<{
     const setDraggingId = useDragStore((state) => state.setDraggingId)
     const targetId = useDragStore((state) => state.targetId);
     const draggingId = useDragStore((state) => state.draggingId);
+    const setTargetId = useDragStore((state) => state.setTargetId);
 
 
 
     const onMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+
+        if (!draggingId) {
+            return
+        }
+
         const rect = e.currentTarget.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
@@ -44,21 +59,41 @@ function Cell(props: PropsWithChildren<{
 
     const onMouseEnter = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 
+        if (!draggingId) {
+            return
+        }
+
+        setTargetId(props.CompId)
+    }
+
+    const onMouseLeave = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+
+        if (!draggingId) {
+            return
+        }
+
+        setTargetId(null)
+
+        // 复位自身
+        if (insertType) {
+            setInsertType(undefined)
+        }
     }
 
 
     return <div
+        data-esd-id={props.CompId}
         draggable
         onMouseDown={() => { }}
         onMouseEnter={onMouseEnter}
-        onMouseLeave={() => { }}
+        onMouseLeave={onMouseLeave}
         onMouseUp={() => { }}
         onMouseMove={onMouseMove}
-        onDragStart={() => setDraggingId(props.unquieId)}
-        onDragEnd={() => {}}
+        onDragStart={() => setDraggingId(props.CompId)}
+        onDragEnd={() => { }}
         onDragOver={() => { }}
         onDragLeave={() => onDragLeave()}
-        onDragEnter={() => onDragEnter(props.unquieId)}
+        onDragEnter={() => onDragEnter(props.CompId)}
         onDrop={() => { }}
 
         // onClickCapture={(e)=>{
@@ -75,7 +110,7 @@ function Cell(props: PropsWithChildren<{
 
         }}
 
-        className={cn(insertType && `insert insert-${insertType}` , targetId == props.unquieId && "insert-dragging")}
+        className={cn(insertType && `insert insert-${insertType}`, targetId == props.unquieId && "insert-dragging")}
 
 
 

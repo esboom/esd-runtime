@@ -55,7 +55,11 @@ function Cell(props) {
   const setDraggingId = useDragStore((state) => state.setDraggingId);
   const targetId = useDragStore((state) => state.targetId);
   const draggingId = useDragStore((state) => state.draggingId);
+  const setTargetId = useDragStore((state) => state.setTargetId);
   const onMouseMove = (e) => {
+    if (!draggingId) {
+      return;
+    }
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -70,26 +74,39 @@ function Cell(props) {
     }
   };
   const onMouseEnter = (e) => {
+    if (!draggingId) {
+      return;
+    }
+    setTargetId(props.CompId);
+  };
+  const onMouseLeave = (e) => {
+    if (!draggingId) {
+      return;
+    }
+    setTargetId(null);
+    if (insertType) {
+      setInsertType(void 0);
+    }
   };
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
     "div",
     {
+      "data-esd-id": props.CompId,
       draggable: true,
       onMouseDown: () => {
       },
       onMouseEnter,
-      onMouseLeave: () => {
-      },
+      onMouseLeave,
       onMouseUp: () => {
       },
       onMouseMove,
-      onDragStart: () => setDraggingId(props.unquieId),
+      onDragStart: () => setDraggingId(props.CompId),
       onDragEnd: () => {
       },
       onDragOver: () => {
       },
       onDragLeave: () => onDragLeave(),
-      onDragEnter: () => onDragEnter(props.unquieId),
+      onDragEnter: () => onDragEnter(props.CompId),
       onDrop: () => {
       },
       style: {
@@ -119,7 +136,7 @@ var esdrt = {
   isComponent: (component, propsDef) => (props) => {
     const compId = props.compId;
     if (compId) {
-      return import_react2.default.createElement(Cell_default, { mode: "sandbox", unquieId: props.compId }, import_react2.default.createElement(component, props));
+      return import_react2.default.createElement(Cell_default, { mode: "sandbox", CompId: props.compId }, import_react2.default.createElement(component, props));
     } else {
       return import_react2.default.createElement(component, props);
     }
@@ -167,6 +184,12 @@ var useDragStore = (0, import_zustand.create)((set, get) => ({
   onDragEnter: (id) => set({ targetId: id }),
   onDragLeave: () => set({ targetId: null })
 }));
+var unsub3 = useDragStore.subscribe(
+  (s, pres) => console.log("dragging  ", pres.draggingId, "--->", s.draggingId)
+);
+var unsub4 = useDragStore.subscribe(
+  (s, pres) => console.log("target  ", pres.targetId, "--->", s.targetId)
+);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   esdrt,
