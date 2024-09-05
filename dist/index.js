@@ -1,0 +1,174 @@
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/index.ts
+var src_exports = {};
+__export(src_exports, {
+  tango: () => tango,
+  useDragStore: () => useDragStore
+});
+module.exports = __toCommonJS(src_exports);
+
+// src/tango.ts
+var import_react2 = __toESM(require("react"));
+
+// src/Cell.tsx
+var import_react = require("react");
+
+// src/utils.ts
+function cn(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
+
+// src/Cell.tsx
+var import_jsx_runtime = require("react/jsx-runtime");
+function Cell(props) {
+  const [insertType, setInsertType] = (0, import_react.useState)();
+  const onDragEnter = useDragStore((state) => state.onDragEnter);
+  const onDragLeave = useDragStore((state) => state.onDragLeave);
+  const setDraggingId = useDragStore((state) => state.setDraggingId);
+  const targetId = useDragStore((state) => state.targetId);
+  const draggingId = useDragStore((state) => state.draggingId);
+  const onMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const w = rect.width;
+    const h = rect.height;
+    const fny = (x2) => w / h * x2;
+    const fnx = (y2) => (w - y2) / h * w;
+    if (y < fny(x)) {
+      x < fnx(y) ? setInsertType("top") : setInsertType("right");
+    } else {
+      x < fnx(y) ? setInsertType("left") : setInsertType("bottom");
+    }
+  };
+  const onMouseEnter = (e) => {
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+    "div",
+    {
+      draggable: true,
+      onMouseDown: () => {
+      },
+      onMouseEnter,
+      onMouseLeave: () => {
+      },
+      onMouseUp: () => {
+      },
+      onMouseMove,
+      onDragStart: () => setDraggingId(props.unquieId),
+      onDragEnd: () => {
+      },
+      onDragOver: () => {
+      },
+      onDragLeave: () => onDragLeave(),
+      onDragEnter: () => onDragEnter(props.unquieId),
+      onDrop: () => {
+      },
+      style: {
+        display: "inline-block"
+      },
+      className: cn(insertType && `insert insert-${insertType}`, targetId == props.unquieId && "insert-dragging"),
+      children: props.children
+    }
+  );
+}
+var Cell_default = Cell;
+
+// src/tango.ts
+var import_zustand = require("zustand");
+var tango = {
+  // todo - 使用语法树生成
+  stores: {
+    // appstore: appStore
+  },
+  isStore: (store) => {
+    return store;
+  },
+  isPage: (page) => page,
+  // todo - implement service handler
+  // todo - with cache
+  isService: (service) => () => service,
+  isComponent: (component, propsDef) => (props) => {
+    const compId = props.compId;
+    if (compId) {
+      return import_react2.default.createElement(Cell_default, { mode: "sandbox", unquieId: props.compId }, import_react2.default.createElement(component, props));
+    } else {
+      return import_react2.default.createElement(component, props);
+    }
+  },
+  init(x) {
+    window.addEventListener("message", (e) => {
+      console.log("ssss", e.data);
+    });
+    window.parent.postMessage({
+      type: "tango.init"
+    }, "*");
+    window.addEventListener("click", (e) => {
+    });
+    window.document.body.addEventListener("dragover", (e) => {
+      console.log("dragover", e.target);
+      e.stopPropagation();
+      e.preventDefault();
+    });
+    window.document.body.addEventListener("drop", (e) => {
+      console.log("drop", e.dataTransfer);
+    });
+    window.document.body.addEventListener("dragstart", (e) => {
+      console.log("dragstart", e.target);
+    });
+    window.document.body.addEventListener("dragend", (e) => {
+      console.log("dragend", e.target);
+    });
+    window.document.body.addEventListener("dragleave", (e) => {
+      console.log("dragleave", e.target);
+    });
+  }
+  // init(mountElement: HTMLElement) {
+  //     console.log("tango init")
+  //     const root = createRoot(mountElement)
+  //     root.render(React.createElement(RouterCreator,{}))
+  // }
+};
+var useDragStore = (0, import_zustand.create)((set, get) => ({
+  draggingId: null,
+  targetId: null,
+  setDraggingId: (id) => set({ draggingId: id }),
+  clearDraggingId: () => set({ draggingId: null }),
+  setTargetId: (id) => get().draggingId != id && set({ targetId: id }),
+  clearTargetId: () => set({ targetId: null }),
+  onDragEnter: (id) => set({ targetId: id }),
+  onDragLeave: () => set({ targetId: null })
+}));
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  tango,
+  useDragStore
+});
+//# sourceMappingURL=index.js.map

@@ -1,0 +1,28 @@
+
+
+.insert{
+    border-width: 0px;
+    border-color: blue;
+    border-style: solid;
+}
+
+.insert-dragging{
+    border-width: 2px;
+    border-color: rgba(56, 218, 96, 0.767);
+}
+
+.insert-top{
+    border-top-width: 1px;
+}
+
+.insert-bottom{
+    border-bottom-width: 1px;
+}
+
+.insert-left{
+    border-left-width: 1px;
+}
+
+.insert-right{
+    border-right-width: 1px;
+}
