@@ -102,28 +102,6 @@ export const esdrt = {
 
 
 
-        // // 监听鼠标按下事件
-        // window.addEventListener("mousedown", (e) => {
-        //     console.log("mousedown")
-
-        //     // 获取点击元素的attributes
-        //     console.log("fmousedown",e.target)
-        // })
-
-        // // 监听鼠标抬起事件
-        // window.addEventListener("mouseup", (e) => {
-        //     console.log("mouseup",e.target)
-
-        //     // 获取点击元素的attributes
-        //     console.log("fmouseup",e.target)
-        // })
-
-        // // 监听鼠标移动事件
-        // window.addEventListener("mousemove", (e) => {
-        //     console.log("mousemove",e.target)
-        // })
-
-
 
     }
     // init(mountElement: HTMLElement) {

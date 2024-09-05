@@ -27,10 +27,12 @@ declare const esdrt: {
     isStore: <T>(store: any) => any;
     isPage: (page: React.ReactElement) => React.ReactElement<any, string | React.JSXElementConstructor<any>>;
     isService: <T_1 = Dict>(service: TService<T_1>) => () => T_1;
-    isComponent: <T_2>(component: React.FunctionComponent<T_2>, propsDef: TPropsObject) => (props: any) => React.FunctionComponentElement<T_2> | React.FunctionComponentElement<React.PropsWithChildren<{
+    isComponent: <T_2>(component: React.FunctionComponent<T_2>, propsDef: TPropsObject) => (props: any) => React.FunctionComponentElement<T_2> | React.FunctionComponentElement<{
         mode: "sandpack" | "sandbox";
         CompId: string;
-    }>>;
+    } & {
+        children?: React.ReactNode;
+    }>;
     init(x: any): void;
 };
 declare const useDragStore: zustand.UseBoundStore<zustand.StoreApi<{

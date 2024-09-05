@@ -1,5 +1,5 @@
 // src/esdrt.ts
-import React from "react";
+import React2 from "react";
 
 // src/Cell.tsx
 import { useState } from "react";
@@ -10,6 +10,7 @@ function cn(...classes) {
 }
 
 // src/Cell.tsx
+import React from "react";
 import { jsx } from "react/jsx-runtime";
 function Cell(props) {
   console.log("render Cell", props);
@@ -64,7 +65,7 @@ function Cell(props) {
       onMouseUp: () => {
       },
       onMouseMove,
-      onDragStart: () => setDraggingId(props.CompId),
+      onDragStart: () => !draggingId && draggingId != props.CompId && setDraggingId(props.CompId),
       onDragEnd: () => {
       },
       onDragOver: () => {
@@ -79,7 +80,7 @@ function Cell(props) {
     }
   );
 }
-var Cell_default = Cell;
+var Cell_default = React.memo(Cell);
 
 // src/esdrt.ts
 import { create } from "zustand";
@@ -98,9 +99,9 @@ var esdrt = {
   isComponent: (component, propsDef) => (props) => {
     const compId = props.compId;
     if (compId) {
-      return React.createElement(Cell_default, { mode: "sandbox", CompId: props.compId }, React.createElement(component, props));
+      return React2.createElement(Cell_default, { mode: "sandbox", CompId: props.compId }, React2.createElement(component, props));
     } else {
-      return React.createElement(component, props);
+      return React2.createElement(component, props);
     }
   },
   init(x) {

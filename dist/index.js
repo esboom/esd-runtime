@@ -35,7 +35,7 @@ __export(src_exports, {
 module.exports = __toCommonJS(src_exports);
 
 // src/esdrt.ts
-var import_react2 = __toESM(require("react"));
+var import_react3 = __toESM(require("react"));
 
 // src/Cell.tsx
 var import_react = require("react");
@@ -46,6 +46,7 @@ function cn(...classes) {
 }
 
 // src/Cell.tsx
+var import_react2 = __toESM(require("react"));
 var import_jsx_runtime = require("react/jsx-runtime");
 function Cell(props) {
   console.log("render Cell", props);
@@ -100,7 +101,7 @@ function Cell(props) {
       onMouseUp: () => {
       },
       onMouseMove,
-      onDragStart: () => setDraggingId(props.CompId),
+      onDragStart: () => !draggingId && draggingId != props.CompId && setDraggingId(props.CompId),
       onDragEnd: () => {
       },
       onDragOver: () => {
@@ -115,7 +116,7 @@ function Cell(props) {
     }
   );
 }
-var Cell_default = Cell;
+var Cell_default = import_react2.default.memo(Cell);
 
 // src/esdrt.ts
 var import_zustand = require("zustand");
@@ -134,9 +135,9 @@ var esdrt = {
   isComponent: (component, propsDef) => (props) => {
     const compId = props.compId;
     if (compId) {
-      return import_react2.default.createElement(Cell_default, { mode: "sandbox", CompId: props.compId }, import_react2.default.createElement(component, props));
+      return import_react3.default.createElement(Cell_default, { mode: "sandbox", CompId: props.compId }, import_react3.default.createElement(component, props));
     } else {
-      return import_react2.default.createElement(component, props);
+      return import_react3.default.createElement(component, props);
     }
   },
   init(x) {

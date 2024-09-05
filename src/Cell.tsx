@@ -3,6 +3,7 @@ import { PropsWithChildren, useRef, useState } from "react";
 import "./cell.css"
 import { useDragStore } from "./esdrt";
 import { cn } from "./utils";
+import React from "react";
 
 function getUUId() {
     return Math.random().toString(36).slice(2);
@@ -89,7 +90,7 @@ function Cell(props: PropsWithChildren<{
         onMouseLeave={onMouseLeave}
         onMouseUp={() => { }}
         onMouseMove={onMouseMove}
-        onDragStart={() => setDraggingId(props.CompId)}
+        onDragStart={() => !draggingId && draggingId != props.CompId && setDraggingId(props.CompId)}
         onDragEnd={() => { }}
         onDragOver={() => { }}
         // onDragLeave={() => onDragLeave()}
@@ -120,4 +121,4 @@ function Cell(props: PropsWithChildren<{
 }
 
 
-export default Cell
+export default React.memo(Cell)
