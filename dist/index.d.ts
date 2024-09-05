@@ -22,7 +22,7 @@ interface TService<T> {
  * 1. 协助编辑器ast语法分析，用来做定位
  * 2. 协助编辑器列表生成，运行态的数据获取，tango会把数据挂在window上，让编辑器读取
  */
-declare const tango: {
+declare const esdrt: {
     stores: {};
     isStore: <T>(store: any) => any;
     isPage: (page: React.ReactElement) => React.ReactElement<any, string | React.JSXElementConstructor<any>>;
@@ -44,4 +44,4 @@ declare const useDragStore: zustand.UseBoundStore<zustand.StoreApi<{
     onDragLeave: () => void;
 }>>;
 
-export { type TPropsObject, type TService, tango, useDragStore };
+export { type TPropsObject, type TService, esdrt, useDragStore };

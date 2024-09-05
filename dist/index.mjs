@@ -1,4 +1,4 @@
-// src/tango.ts
+// src/esdrt.ts
 import React from "react";
 
 // src/Cell.tsx
@@ -12,6 +12,7 @@ function cn(...classes) {
 // src/Cell.tsx
 import { jsx } from "react/jsx-runtime";
 function Cell(props) {
+  console.log("render Cell", props);
   const [insertType, setInsertType] = useState();
   const onDragEnter = useDragStore((state) => state.onDragEnter);
   const onDragLeave = useDragStore((state) => state.onDragLeave);
@@ -65,9 +66,9 @@ function Cell(props) {
 }
 var Cell_default = Cell;
 
-// src/tango.ts
+// src/esdrt.ts
 import { create } from "zustand";
-var tango = {
+var esdrt = {
   // todo - 使用语法树生成
   stores: {
     // appstore: appStore
@@ -131,7 +132,7 @@ var useDragStore = create((set, get) => ({
   onDragLeave: () => set({ targetId: null })
 }));
 export {
-  tango,
+  esdrt,
   useDragStore
 };
 //# sourceMappingURL=index.mjs.map

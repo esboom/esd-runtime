@@ -1,13 +1,15 @@
 import { PropsWithChildren, useState } from "react";
 
 import "./cell.css"
-import { useDragStore } from "./tango";
+import { useDragStore } from "./esdrt";
 import { cn } from "./utils";
 
 function Cell(props: PropsWithChildren<{
     mode: "sandpack" | "sandbox",
     unquieId: string
 }>) {
+
+    console.log("render Cell", props);
 
 
     const [insertType, setInsertType] = useState<"top" | "bottom" | "left" | "right" | "center" | undefined>();

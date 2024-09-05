@@ -25,7 +25,7 @@ export interface TService<T> {
  * 1. 协助编辑器ast语法分析，用来做定位
  * 2. 协助编辑器列表生成，运行态的数据获取，tango会把数据挂在window上，让编辑器读取
  */
-export const tango = {
+export const esdrt = {
     // todo - 使用语法树生成
     stores: {
         // appstore: appStore
@@ -156,7 +156,3 @@ export const useDragStore = create<{
     onDragEnter: (id) => set({ targetId: id }),
     onDragLeave: () => set({ targetId: null }),
 }))
-
-
-
-export default tango;

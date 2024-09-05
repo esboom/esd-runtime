@@ -29,12 +29,12 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var src_exports = {};
 __export(src_exports, {
-  tango: () => tango,
+  esdrt: () => esdrt,
   useDragStore: () => useDragStore
 });
 module.exports = __toCommonJS(src_exports);
 
-// src/tango.ts
+// src/esdrt.ts
 var import_react2 = __toESM(require("react"));
 
 // src/Cell.tsx
@@ -48,6 +48,7 @@ function cn(...classes) {
 // src/Cell.tsx
 var import_jsx_runtime = require("react/jsx-runtime");
 function Cell(props) {
+  console.log("render Cell", props);
   const [insertType, setInsertType] = (0, import_react.useState)();
   const onDragEnter = useDragStore((state) => state.onDragEnter);
   const onDragLeave = useDragStore((state) => state.onDragLeave);
@@ -101,9 +102,9 @@ function Cell(props) {
 }
 var Cell_default = Cell;
 
-// src/tango.ts
+// src/esdrt.ts
 var import_zustand = require("zustand");
-var tango = {
+var esdrt = {
   // todo - 使用语法树生成
   stores: {
     // appstore: appStore
@@ -168,7 +169,7 @@ var useDragStore = (0, import_zustand.create)((set, get) => ({
 }));
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  tango,
+  esdrt,
   useDragStore
 });
 //# sourceMappingURL=index.js.map
