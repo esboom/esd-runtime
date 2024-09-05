@@ -27,6 +27,7 @@ function Cell(props: PropsWithChildren<{
     const onDragEnter = useDragStore((state) => state.onDragEnter)
     const onDragLeave = useDragStore((state) => state.onDragLeave)
     const onDragEnd = useDragStore((state) => state.onDragEnd)
+    const onDrop = useDragStore((state) => state.onDrop)
     const setDraggingId = useDragStore((state) => state.setDraggingId)
     const targetId = useDragStore((state) => state.targetId);
     const draggingId = useDragStore((state) => state.draggingId);
@@ -108,9 +109,9 @@ function Cell(props: PropsWithChildren<{
         onDragStart={() => !draggingId && draggingId != props.CompId && setDraggingId(props.CompId)}
         onDragEnd={onDragEnd}
         onDragOver={onDragOver}
-        // onDragLeave={() => onDragLeave()}
-        // onDragEnter={() => onDragEnter(props.CompId)}
-        onDrop={() => console.log("drop")}
+        onDragLeave={() => onDragLeave()}
+        onDragEnter={() => onDragEnter(props.CompId)}
+        onDrop={onDrop}
 
         // onClickCapture={(e)=>{
         //     e.stopPropagation();

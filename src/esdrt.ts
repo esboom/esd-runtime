@@ -123,7 +123,8 @@ export const useDragStore = create<{
     clearTargetId: () => void,
     onDragEnter: (id: string | null) => void,
     onDragLeave: () => void,
-    onDragEnd: () => void
+    onDragEnd: () => void,
+    onDrop:()=>void
 }>((set,get) => ({
     draggingId: null,
     targetId: null,
@@ -135,12 +136,18 @@ export const useDragStore = create<{
     onDragEnter: (id) => set({ targetId: id }),
     onDragLeave: () => set({ targetId: null }),
     onDragEnd: () => {
+        console.log("dragend");
+
         if(get().draggingId && get().targetId) {
             // todo - 发送通知给编辑器
         }else{
             set({ draggingId: null, targetId: null })
         }
     },
+    onDrop:()=>{
+        console.log("drop");
+
+    }
 }))
 
 

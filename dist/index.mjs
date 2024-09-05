@@ -18,6 +18,7 @@ function Cell(props) {
   const onDragEnter = useDragStore((state) => state.onDragEnter);
   const onDragLeave = useDragStore((state) => state.onDragLeave);
   const onDragEnd = useDragStore((state) => state.onDragEnd);
+  const onDrop = useDragStore((state) => state.onDrop);
   const setDraggingId = useDragStore((state) => state.setDraggingId);
   const targetId = useDragStore((state) => state.targetId);
   const draggingId = useDragStore((state) => state.draggingId);
@@ -74,7 +75,9 @@ function Cell(props) {
       onDragStart: () => !draggingId && draggingId != props.CompId && setDraggingId(props.CompId),
       onDragEnd,
       onDragOver,
-      onDrop: () => console.log("drop"),
+      onDragLeave: () => onDragLeave(),
+      onDragEnter: () => onDragEnter(props.CompId),
+      onDrop,
       style: {
         display: "inline-block"
       },
@@ -133,10 +136,14 @@ var useDragStore = create((set, get) => ({
   onDragEnter: (id) => set({ targetId: id }),
   onDragLeave: () => set({ targetId: null }),
   onDragEnd: () => {
+    console.log("dragend");
     if (get().draggingId && get().targetId) {
     } else {
       set({ draggingId: null, targetId: null });
     }
+  },
+  onDrop: () => {
+    console.log("drop");
   }
 }));
 var unsub3 = useDragStore.subscribe(
