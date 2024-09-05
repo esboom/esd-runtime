@@ -26,6 +26,7 @@ function Cell(props: PropsWithChildren<{
 
     const onDragEnter = useDragStore((state) => state.onDragEnter)
     const onDragLeave = useDragStore((state) => state.onDragLeave)
+    const onDragEnd = useDragStore((state) => state.onDragEnd)
     const setDraggingId = useDragStore((state) => state.setDraggingId)
     const targetId = useDragStore((state) => state.targetId);
     const draggingId = useDragStore((state) => state.draggingId);
@@ -88,6 +89,13 @@ function Cell(props: PropsWithChildren<{
         console.log("dragover")
     }
 
+    // const onDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
+
+
+
+
+    // }
+
 
     return <div
         data-esd-id={props.CompId}
@@ -98,7 +106,7 @@ function Cell(props: PropsWithChildren<{
         onMouseUp={() => { }}
         onMouseMove={onMouseMove}
         onDragStart={() => !draggingId && draggingId != props.CompId && setDraggingId(props.CompId)}
-        onDragEnd={() => console.log("dragend")}
+        onDragEnd={onDragEnd}
         onDragOver={onDragOver}
         // onDragLeave={() => onDragLeave()}
         // onDragEnter={() => onDragEnter(props.CompId)}

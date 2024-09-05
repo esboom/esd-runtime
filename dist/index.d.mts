@@ -44,6 +44,7 @@ declare const useDragStore: zustand.UseBoundStore<zustand.StoreApi<{
     clearTargetId: () => void;
     onDragEnter: (id: string | null) => void;
     onDragLeave: () => void;
+    onDragEnd: () => void;
 }>>;
 
 export { type TPropsObject, type TService, esdrt, useDragStore };

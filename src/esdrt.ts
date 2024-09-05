@@ -122,7 +122,8 @@ export const useDragStore = create<{
     setTargetId: (id: string | null) => void,
     clearTargetId: () => void,
     onDragEnter: (id: string | null) => void,
-    onDragLeave: () => void
+    onDragLeave: () => void,
+    onDragEnd: () => void
 }>((set,get) => ({
     draggingId: null,
     targetId: null,
