@@ -147,7 +147,13 @@ var useDragStore = create((set, get) => ({
   setTargetId: (id) => get().draggingId != id && set({ targetId: id }),
   clearTargetId: () => set({ targetId: null }),
   onDragEnter: (id) => set({ targetId: id }),
-  onDragLeave: () => set({ targetId: null })
+  onDragLeave: () => set({ targetId: null }),
+  onDragEnd: () => {
+    if (get().draggingId && get().targetId) {
+    } else {
+      set({ draggingId: null, targetId: null });
+    }
+  }
 }));
 var unsub3 = useDragStore.subscribe(
   (s, pres) => console.log("dragging  ", pres.draggingId, "--->", s.draggingId)

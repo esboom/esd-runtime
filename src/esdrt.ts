@@ -133,6 +133,13 @@ export const useDragStore = create<{
 
     onDragEnter: (id) => set({ targetId: id }),
     onDragLeave: () => set({ targetId: null }),
+    onDragEnd: () => {
+        if(get().draggingId && get().targetId) {
+            // todo - 发送通知给编辑器
+        }else{
+            set({ draggingId: null, targetId: null })
+        }
+    },
 }))
 
 
