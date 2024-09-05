@@ -76,28 +76,28 @@ export const esdrt = {
         // })
 
         // 监听drop事件
-        window.document.body.addEventListener("dragover", (e) => {
-            console.log("dragover", e.target)
-            e.stopPropagation()
-            e.preventDefault()
-        })
+        // window.document.body.addEventListener("dragover", (e) => {
+        //     console.log("dragover", e.target)
+        //     e.stopPropagation()
+        //     e.preventDefault()
+        // })
 
 
-        window.document.body.addEventListener("drop", (e) => {
-            console.log("drop", e.dataTransfer)
-        })
+        // window.document.body.addEventListener("drop", (e) => {
+        //     console.log("drop", e.dataTransfer)
+        // })
 
-        window.document.body.addEventListener("dragstart", (e) => {
-            console.log("dragstart", e.target)
-        })
+        // window.document.body.addEventListener("dragstart", (e) => {
+        //     console.log("dragstart", e.target)
+        // })
 
-        window.document.body.addEventListener("dragend", (e) => {
-            console.log("dragend", e.target)
-        })
+        // window.document.body.addEventListener("dragend", (e) => {
+        //     console.log("dragend", e.target)
+        // })
 
-        window.document.body.addEventListener("dragleave", (e) => {
-            console.log("dragleave", e.target)
-        })
+        // window.document.body.addEventListener("dragleave", (e) => {
+        //     console.log("dragleave", e.target)
+        // })
 
 
 
