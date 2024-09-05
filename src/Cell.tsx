@@ -35,7 +35,9 @@ function Cell(props: PropsWithChildren<{
 
 
 
-    const onMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const onDragOver = (e: React.DragEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
 
         if (!draggingId) {
             return
@@ -88,12 +90,12 @@ function Cell(props: PropsWithChildren<{
         }
     }
 
-    const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
+    // const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    //     e.preventDefault();
+    //     e.stopPropagation();
 
-        console.log("dragover")
-    }
+    //     console.log("dragover")
+    // }
 
     // const onDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
 

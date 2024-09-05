@@ -59,7 +59,9 @@ function Cell(props) {
   const targetId = useDragStore((state) => state.targetId);
   const draggingId = useDragStore((state) => state.draggingId);
   const setTargetId = useDragStore((state) => state.setTargetId);
-  const onMouseMove = (e) => {
+  const onDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (!draggingId) {
       return;
     }
@@ -90,11 +92,6 @@ function Cell(props) {
     if (insertType) {
       setInsertType(void 0);
     }
-  };
-  const onDragOver = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    console.log("dragover");
   };
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
     "div",
