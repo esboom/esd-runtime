@@ -1,16 +1,19 @@
+.cell{
+    position: relative;
+    display: inline-block;
+}
 
-
-.insert{
+/* .insert{
     border-width: 0px;
     border-color: blue;
     border-style: solid;
-}
+} */
 
 .insert-dragging{
     border-width: 2px;
     border-color: rgba(56, 218, 96, 0.767);
 }
-
+/*
 .insert-top{
     border-top-width: 1px;
 }
@@ -25,9 +28,46 @@
 
 .insert-right{
     border-right-width: 1px;
-}
+} */
 
 
 .dragging-self{
     opacity: 0.5;
+}
+
+
+.right-inside,
+.left-inside,
+.top-inside,
+.bottom-inside{
+    position: absolute;
+    background-color: rgba(56, 218, 96, 0.767);
+}
+
+.right-inside,
+.left-inside{
+    width: 1px;
+    height: 100%;
+    top: 0;
+}
+
+
+.top-inside,
+.bottom-inside{
+    width: 100%;
+    height: 1px;
+    left: 0;
+}
+
+.right-inside{
+    right: 0;
+}
+.top-inside{
+    top: 0;
+}
+.left-inside{
+    left: 0;
+}
+.bottom-inside{
+    bottom: 0;
 }

@@ -139,17 +139,16 @@ function Cell(props: PropsWithChildren<{
         //     e.preventDefault();
         // }}
 
-        style={{
-            display: "inline-block",
 
-        }}
-
-        className={cn(insertType && `insert insert-${insertType}`, targetId == props.CompId && "insert-dragging", isDragSelf && "dragging-self")}
+        className={cn("cell", targetId == props.CompId && "insert-dragging", isDragSelf && "dragging-self")}
 
 
 
     >
         {props.children}
+
+        <div className={cn(insertType && `${insertType}-inside`)}/>
+
     </div>;
 }
 

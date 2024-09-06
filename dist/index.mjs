@@ -11,7 +11,7 @@ function cn(...classes) {
 
 // src/Cell.tsx
 import React from "react";
-import { jsx } from "react/jsx-runtime";
+import { jsx, jsxs } from "react/jsx-runtime";
 function Cell(props) {
   const [insertType, setInsertType] = useState();
   const dragStart = useDragStore((state) => state.onDragStart);
@@ -59,7 +59,7 @@ function Cell(props) {
   const onDragStart = () => {
     const canDrag = dragStart(props.CompId);
   };
-  return /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ jsxs(
     "div",
     {
       "data-esd-id": props.CompId,
@@ -72,11 +72,11 @@ function Cell(props) {
       onDragLeave,
       onDragEnter,
       onDrop,
-      style: {
-        display: "inline-block"
-      },
-      className: cn(insertType && `insert insert-${insertType}`, targetId == props.CompId && "insert-dragging", isDragSelf && "dragging-self"),
-      children: props.children
+      className: cn("cell", targetId == props.CompId && "insert-dragging", isDragSelf && "dragging-self"),
+      children: [
+        props.children,
+        /* @__PURE__ */ jsx("div", { className: cn(insertType && `${insertType}-inside`) })
+      ]
     }
   );
 }
