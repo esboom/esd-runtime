@@ -35,7 +35,10 @@ declare const esdrt: {
     }>;
     init(x: any): void;
 };
+type TDirection = "top" | "bottom" | "left" | "right" | "center" | null;
 declare const useDragStore: zustand.UseBoundStore<zustand.StoreApi<{
+    _isNewComp: boolean;
+    _direction: TDirection;
     draggingId: string | null;
     targetId: string | null;
     onDragStart: (id: string) => boolean;
@@ -43,6 +46,12 @@ declare const useDragStore: zustand.UseBoundStore<zustand.StoreApi<{
     onDragLeave: () => void;
     onDragEnd: () => void;
     onDrop: () => void;
+    updateDirection: (d: TDirection) => void;
+    onParentDragEnter: () => void;
+    onParentDrop: () => void;
+    resetAllStates: () => void;
+    onMouseEnter: (id: string) => void;
+    onMouseLeave: (id: string) => void;
 }>>;
 
-export { type TPropsObject, type TService, esdrt, useDragStore };
+export { type TDirection, type TPropsObject, type TService, esdrt, useDragStore };

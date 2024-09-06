@@ -13,14 +13,16 @@ function cn(...classes) {
 import React from "react";
 import { jsx, jsxs } from "react/jsx-runtime";
 function Cell(props) {
-  const [insertType, setInsertType] = useState();
+  const [insertType, setInsertType] = useState(null);
   const dragStart = useDragStore((state) => state.onDragStart);
   const dragEnter = useDragStore((state) => state.onDragEnter);
   const dragLeave = useDragStore((state) => state.onDragLeave);
-  const onDragEnd = useDragStore((state) => state.onDragEnd);
+  const mouseEnter = useDragStore((state) => state.onMouseEnter);
+  const mouseLeave = useDragStore((state) => state.onMouseLeave);
+  const dragEnd = useDragStore((state) => state.onDragEnd);
   const onDrop = useDragStore((state) => state.onDrop);
-  const targetId = useDragStore((state) => state.targetId);
   const draggingId = useDragStore((state) => state.draggingId);
+  const isNewComp = useDragStore((state) => state._isNewComp == true);
   const isDragSelf = useDragStore((state) => state.draggingId === props.CompId);
   const onDragOver = (e) => {
     e.preventDefault();
@@ -33,13 +35,16 @@ function Cell(props) {
     const y = e.clientY - rect.top;
     const w = rect.width;
     const h = rect.height;
+    let direct = null;
     const fny = (x2) => w / h * x2;
     const fnx = (y2) => (w - y2) / h * w;
     if (y < fny(x)) {
-      x < fnx(y) ? setInsertType("top") : setInsertType("right");
+      x < fnx(y) ? direct = "top" : direct = "right";
     } else {
-      x < fnx(y) ? setInsertType("left") : setInsertType("bottom");
+      x < fnx(y) ? direct = "right" : direct = "bottom";
     }
+    setInsertType(direct);
+    useDragStore.getState().updateDirection(direct);
   };
   const onDragEnter = (e) => {
     if (!draggingId || isDragSelf) {
@@ -53,19 +58,69 @@ function Cell(props) {
     }
     dragLeave();
     if (insertType) {
-      setInsertType(void 0);
+      setInsertType(null);
     }
   };
+  const onDragEnd = (e) => {
+    if (insertType) {
+      setInsertType(null);
+    }
+    dragEnd();
+  };
   const onDragStart = () => {
-    const canDrag = dragStart(props.CompId);
+    if (!isNewComp) {
+      return;
+    }
+    dragStart(props.CompId);
+  };
+  const onMouseEnter = () => {
+    if (!isNewComp) {
+      return;
+    }
+    mouseEnter(props.CompId);
+  };
+  const onMouseLeave = () => {
+    if (!isNewComp) {
+      return;
+    }
+    if (insertType) {
+      setInsertType(null);
+    }
+    mouseLeave(props.CompId);
+  };
+  const onMouseMove = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!isNewComp) {
+      return;
+    }
+    if (isDragSelf) {
+      return;
+    }
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const w = rect.width;
+    const h = rect.height;
+    let direct = null;
+    const fny = (x2) => w / h * x2;
+    const fnx = (y2) => (w - y2) / h * w;
+    if (y < fny(x)) {
+      x < fnx(y) ? direct = "top" : direct = "right";
+    } else {
+      x < fnx(y) ? direct = "right" : direct = "bottom";
+    }
+    setInsertType(direct);
+    useDragStore.getState().updateDirection(direct);
   };
   return /* @__PURE__ */ jsxs(
     "div",
     {
       "data-esd-id": props.CompId,
       draggable: true,
-      onMouseDown: () => {
-      },
+      onMouseEnter,
+      onMouseLeave,
+      onMouseMove,
       onDragStart,
       onDragEnd,
       onDragOver,
@@ -107,9 +162,21 @@ var esdrt = {
   init(x) {
     window.addEventListener("message", (e) => {
       console.log("ssss", e.data);
+      if (e.type == "es-editor:dragenter") {
+        useDragStore.getState().onParentDragEnter();
+      }
+      if (e.type == "es-editor:drop") {
+        useDragStore.getState().onParentDrop();
+      }
+      if (e.type == "es-editor:dragend") {
+        useDragStore.getState().resetAllStates();
+      }
+      if (e.type == "es-editor:dragleave") {
+        useDragStore.getState().resetAllStates();
+      }
     });
     window.parent.postMessage({
-      type: "tango.init"
+      type: "esdrt.init"
     }, "*");
     window.addEventListener("click", (e) => {
     });
@@ -121,12 +188,10 @@ var esdrt = {
   // }
 };
 var useDragStore = create((set, get) => ({
+  _direction: null,
+  _isNewComp: false,
   draggingId: null,
   targetId: null,
-  // setDraggingId: (id) => set({ draggingId: id }),
-  // clearDraggingId: () => set({ draggingId: null }),
-  // setTargetId: (id) => get().draggingId != id &&  set({ targetId: id }),
-  // clearTargetId: () => set({ targetId: null }),
   onDragStart: (id) => {
     if (!get().draggingId) {
       set({
@@ -139,12 +204,54 @@ var useDragStore = create((set, get) => ({
   onDragEnter: (id) => set({ targetId: id }),
   onDragLeave: () => set({ targetId: null }),
   onDragEnd: () => {
-    console.log("dragend");
-    set({ draggingId: null, targetId: null });
+    get().resetAllStates();
   },
   onDrop: () => {
-    if (get().draggingId && get().targetId) {
-      console.log("drop!", get().draggingId, "-->", get().targetId);
+    const { draggingId, targetId, _direction } = get();
+    if (draggingId && targetId) {
+      console.log("drop!", draggingId, "-->", targetId, ":", _direction);
+    }
+  },
+  onMouseEnter: (id) => {
+    if (!get()._isNewComp) {
+      return;
+    }
+    set({ targetId: id });
+  },
+  onMouseLeave: (id) => {
+    const { _isNewComp, resetAllStates } = get();
+    if (!_isNewComp) {
+      return;
+    }
+    resetAllStates();
+  },
+  onParentDragEnter: () => {
+    get().resetAllStates();
+    set({ _isNewComp: true });
+  },
+  onParentDrop: () => {
+    const { targetId, _isNewComp, _direction, resetAllStates } = get();
+    if (!_isNewComp) {
+      resetAllStates();
+      return;
+    }
+    if (targetId) {
+      console.log("drop!", "new material", "-->", targetId, ":", _direction);
+    }
+    resetAllStates();
+  },
+  resetAllStates: () => {
+    set({
+      targetId: null,
+      draggingId: null,
+      _isNewComp: false,
+      _direction: null
+    });
+  },
+  updateDirection: (d) => {
+    const { targetId } = get();
+    if (targetId) {
+      set({ _direction: d });
     }
   }
 }));
