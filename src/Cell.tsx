@@ -140,7 +140,7 @@ function Cell(props: PropsWithChildren<{
         // }}
 
 
-        className={cn("cell", targetId == props.CompId && "insert-dragging", isDragSelf && "dragging-self")}
+        className={cn("cell", isDragSelf && "dragging-self")}
 
 
 

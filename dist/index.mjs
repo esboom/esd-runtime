@@ -72,7 +72,7 @@ function Cell(props) {
       onDragLeave,
       onDragEnter,
       onDrop,
-      className: cn("cell", targetId == props.CompId && "insert-dragging", isDragSelf && "dragging-self"),
+      className: cn("cell", isDragSelf && "dragging-self"),
       children: [
         props.children,
         /* @__PURE__ */ jsx("div", { className: cn(insertType && `${insertType}-inside`) })

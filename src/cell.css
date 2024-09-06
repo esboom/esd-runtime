@@ -41,12 +41,12 @@
 .top-inside,
 .bottom-inside{
     position: absolute;
-    background-color: rgba(56, 218, 96, 0.767);
+    background-color: rgb(55, 74, 245);
 }
 
 .right-inside,
 .left-inside{
-    width: 1px;
+    width: 3px;
     height: 100%;
     top: 0;
 }
@@ -55,7 +55,7 @@
 .top-inside,
 .bottom-inside{
     width: 100%;
-    height: 1px;
+    height: 3px;
     left: 0;
 }
 
