@@ -33,13 +33,15 @@ function Cell(props: PropsWithChildren<{
     const draggingId = useDragStore((state) => state.draggingId);
     const setTargetId = useDragStore((state) => state.setTargetId);
 
+    const isDragSelf = useDragStore((state) => state.draggingId === props.CompId)
+
 
 
     const onDragOver = (e: React.DragEvent) => {
         e.preventDefault();
         e.stopPropagation();
 
-        if (!draggingId) {
+        if (!draggingId || isDragSelf) {
             return
         }
 
@@ -64,7 +66,7 @@ function Cell(props: PropsWithChildren<{
 
     const onDragEnter = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 
-        if (!draggingId) {
+        if (!draggingId || isDragSelf) {
             return
         }
 
@@ -76,7 +78,7 @@ function Cell(props: PropsWithChildren<{
     const onDragLeave = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 
 
-        if (!draggingId) {
+        if (!draggingId || isDragSelf) {
             return
         }
 

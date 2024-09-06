@@ -23,10 +23,11 @@ function Cell(props) {
   const targetId = useDragStore((state) => state.targetId);
   const draggingId = useDragStore((state) => state.draggingId);
   const setTargetId = useDragStore((state) => state.setTargetId);
+  const isDragSelf = useDragStore((state) => state.draggingId === props.CompId);
   const onDragOver = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!draggingId) {
+    if (!draggingId || isDragSelf) {
       return;
     }
     const rect = e.currentTarget.getBoundingClientRect();
@@ -43,13 +44,13 @@ function Cell(props) {
     }
   };
   const onDragEnter = (e) => {
-    if (!draggingId) {
+    if (!draggingId || isDragSelf) {
       return;
     }
     dragEnter(props.CompId);
   };
   const onDragLeave = (e) => {
-    if (!draggingId) {
+    if (!draggingId || isDragSelf) {
       return;
     }
     dragLeave();

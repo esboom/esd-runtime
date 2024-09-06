@@ -5,8 +5,9 @@
   "files": [
     "dist"
   ],
-  "types": "dist/index.d.ts",
-  "main": "dist/index.js",
+  "types": "dist/index.d.mts",
+  "main": "dist/index.mjs",
+
   "scripts": {
     "dev": "tsup",
     "build": "tsup"

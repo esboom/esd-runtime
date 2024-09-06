@@ -1,5 +1,5 @@
 
-import React, { FunctionComponent } from "react"
+import React, { type FunctionComponent } from "react"
 import Cell from "./Cell";
 // import { createRoot } from "react-dom"
 type AnyClass<T = any> = new () => T;
