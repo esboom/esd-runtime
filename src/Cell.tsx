@@ -15,7 +15,7 @@ function Cell(props: PropsWithChildren<{
     CompId: string
 }>) {
 
-    console.log("render Cell", props);
+    // console.log("render Cell", props);
 
     // 生成唯一的随机id
     // 不可以在运行态分配id，因为这样会导致编辑器无法定位语法树
@@ -24,16 +24,18 @@ function Cell(props: PropsWithChildren<{
 
     const [insertType, setInsertType] = useState<"top" | "bottom" | "left" | "right" | "center" | undefined>();
 
+    const dragStart = useDragStore((state) => state.onDragStart)
     const dragEnter = useDragStore((state) => state.onDragEnter)
     const dragLeave = useDragStore((state) => state.onDragLeave)
     const onDragEnd = useDragStore((state) => state.onDragEnd)
     const onDrop = useDragStore((state) => state.onDrop)
-    const setDraggingId = useDragStore((state) => state.setDraggingId)
+    // const setDraggingId = useDragStore((state) => state.setDraggingId)
     const targetId = useDragStore((state) => state.targetId);
     const draggingId = useDragStore((state) => state.draggingId);
-    const setTargetId = useDragStore((state) => state.setTargetId);
+    // const setTargetId = useDragStore((state) => state.setTargetId);
 
     const isDragSelf = useDragStore((state) => state.draggingId === props.CompId)
+
 
 
 
@@ -106,6 +108,11 @@ function Cell(props: PropsWithChildren<{
 
     // }
 
+    const onDragStart = ()=>{
+       const canDrag =   dragStart(props.CompId);
+
+    }
+
 
     return <div
         data-esd-id={props.CompId}
@@ -115,7 +122,7 @@ function Cell(props: PropsWithChildren<{
         // onMouseLeave={onMouseLeave}
         // onMouseUp={() => { }}
         // onMouseMove={onMouseMove}
-        onDragStart={() => !draggingId && draggingId != props.CompId && setDraggingId(props.CompId)}
+        onDragStart={onDragStart}
         onDragEnd={onDragEnd}
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
@@ -137,7 +144,7 @@ function Cell(props: PropsWithChildren<{
 
         }}
 
-        className={cn(insertType && `insert insert-${insertType}`, targetId == props.CompId && "insert-dragging")}
+        className={cn(insertType && `insert insert-${insertType}`, targetId == props.CompId && "insert-dragging", isDragSelf && "dragging-self")}
 
 
 

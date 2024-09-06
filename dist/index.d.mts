@@ -38,10 +38,7 @@ declare const esdrt: {
 declare const useDragStore: zustand.UseBoundStore<zustand.StoreApi<{
     draggingId: string | null;
     targetId: string | null;
-    setDraggingId: (id: string | null) => void;
-    clearDraggingId: () => void;
-    setTargetId: (id: string | null) => void;
-    clearTargetId: () => void;
+    onDragStart: (id: string) => boolean;
     onDragEnter: (id: string | null) => void;
     onDragLeave: () => void;
     onDragEnd: () => void;

@@ -13,16 +13,14 @@ function cn(...classes) {
 import React from "react";
 import { jsx } from "react/jsx-runtime";
 function Cell(props) {
-  console.log("render Cell", props);
   const [insertType, setInsertType] = useState();
+  const dragStart = useDragStore((state) => state.onDragStart);
   const dragEnter = useDragStore((state) => state.onDragEnter);
   const dragLeave = useDragStore((state) => state.onDragLeave);
   const onDragEnd = useDragStore((state) => state.onDragEnd);
   const onDrop = useDragStore((state) => state.onDrop);
-  const setDraggingId = useDragStore((state) => state.setDraggingId);
   const targetId = useDragStore((state) => state.targetId);
   const draggingId = useDragStore((state) => state.draggingId);
-  const setTargetId = useDragStore((state) => state.setTargetId);
   const isDragSelf = useDragStore((state) => state.draggingId === props.CompId);
   const onDragOver = (e) => {
     e.preventDefault();
@@ -58,6 +56,9 @@ function Cell(props) {
       setInsertType(void 0);
     }
   };
+  const onDragStart = () => {
+    const canDrag = dragStart(props.CompId);
+  };
   return /* @__PURE__ */ jsx(
     "div",
     {
@@ -65,7 +66,7 @@ function Cell(props) {
       draggable: true,
       onMouseDown: () => {
       },
-      onDragStart: () => !draggingId && draggingId != props.CompId && setDraggingId(props.CompId),
+      onDragStart,
       onDragEnd,
       onDragOver,
       onDragLeave,
@@ -74,7 +75,7 @@ function Cell(props) {
       style: {
         display: "inline-block"
       },
-      className: cn(insertType && `insert insert-${insertType}`, targetId == props.CompId && "insert-dragging"),
+      className: cn(insertType && `insert insert-${insertType}`, targetId == props.CompId && "insert-dragging", isDragSelf && "dragging-self"),
       children: props.children
     }
   );
@@ -122,21 +123,29 @@ var esdrt = {
 var useDragStore = create((set, get) => ({
   draggingId: null,
   targetId: null,
-  setDraggingId: (id) => set({ draggingId: id }),
-  clearDraggingId: () => set({ draggingId: null }),
-  setTargetId: (id) => get().draggingId != id && set({ targetId: id }),
-  clearTargetId: () => set({ targetId: null }),
+  // setDraggingId: (id) => set({ draggingId: id }),
+  // clearDraggingId: () => set({ draggingId: null }),
+  // setTargetId: (id) => get().draggingId != id &&  set({ targetId: id }),
+  // clearTargetId: () => set({ targetId: null }),
+  onDragStart: (id) => {
+    if (!get().draggingId) {
+      set({
+        draggingId: id
+      });
+      return true;
+    }
+    return false;
+  },
   onDragEnter: (id) => set({ targetId: id }),
   onDragLeave: () => set({ targetId: null }),
   onDragEnd: () => {
     console.log("dragend");
-    if (get().draggingId && get().targetId) {
-    } else {
-      set({ draggingId: null, targetId: null });
-    }
+    set({ draggingId: null, targetId: null });
   },
   onDrop: () => {
-    console.log("drop");
+    if (get().draggingId && get().targetId) {
+      console.log("drop!", get().draggingId, "-->", get().targetId);
+    }
   }
 }));
 var unsub3 = useDragStore.subscribe(

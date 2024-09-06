@@ -26,3 +26,8 @@
 .insert-right{
     border-right-width: 1px;
 }
+
+
+.dragging-self{
+    opacity: 0.5;
+}

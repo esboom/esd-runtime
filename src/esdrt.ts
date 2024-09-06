@@ -117,10 +117,11 @@ import { create } from 'zustand'
 export const useDragStore = create<{
     draggingId: string | null,
     targetId: string | null,
-    setDraggingId: (id: string | null) => void,
-    clearDraggingId: () => void,
-    setTargetId: (id: string | null) => void,
-    clearTargetId: () => void,
+    // setDraggingId: (id: string | null) => void,
+    // clearDraggingId: () => void,
+    // setTargetId: (id: string | null) => void,
+    // clearTargetId: () => void,
+    onDragStart: (id:string) => boolean,
     onDragEnter: (id: string | null) => void,
     onDragLeave: () => void,
     onDragEnd: () => void,
@@ -128,24 +129,39 @@ export const useDragStore = create<{
 }>((set,get) => ({
     draggingId: null,
     targetId: null,
-    setDraggingId: (id) => set({ draggingId: id }),
-    clearDraggingId: () => set({ draggingId: null }),
-    setTargetId: (id) => get().draggingId != id &&  set({ targetId: id }),
-    clearTargetId: () => set({ targetId: null }),
+    // setDraggingId: (id) => set({ draggingId: id }),
+    // clearDraggingId: () => set({ draggingId: null }),
+    // setTargetId: (id) => get().draggingId != id &&  set({ targetId: id }),
+    // clearTargetId: () => set({ targetId: null }),
+    onDragStart:(id)=>{
+       if( !get().draggingId ) {
+        set({
+            draggingId:id
+        })
+        return true
+       }
 
+       return false
+
+    },
     onDragEnter: (id) => set({ targetId: id }),
     onDragLeave: () => set({ targetId: null }),
     onDragEnd: () => {
         console.log("dragend");
 
-        if(get().draggingId && get().targetId) {
-            // todo - 发送通知给编辑器
-        }else{
-            set({ draggingId: null, targetId: null })
-        }
+        set({ draggingId: null, targetId: null })
     },
     onDrop:()=>{
-        console.log("drop");
+
+        if(get().draggingId && get().targetId) {
+            // todo - 发送通知给编辑器
+
+            console.log("drop!",get().draggingId, "-->",get().targetId);
+        }
+
+        // else{
+        //     set({ draggingId: null, targetId: null })
+        // }
 
     }
 }))
