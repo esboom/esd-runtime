@@ -68,7 +68,7 @@ function Cell(props) {
     dragEnd();
   };
   const onDragStart = () => {
-    if (!isNewComp) {
+    if (isNewComp) {
       return;
     }
     dragStart(props.CompId);

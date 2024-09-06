@@ -107,7 +107,7 @@ function Cell(props: PropsWithChildren<{
     }
 
     const onDragStart = () => {
-        if(!isNewComp) { return}
+        if(isNewComp) { return}
         dragStart(props.CompId);
     }
 
